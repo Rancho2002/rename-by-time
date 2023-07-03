@@ -7,14 +7,14 @@ files.sort(key=lambda x: os.path.getmtime(x))
 # print(files) # list index 0 hold the oldest file
 digits=int(log10(len(files)))+1
 
-print(f"Please note: Hidden files lead to non-consecutive renaming sometimes. Move or delete files/folder if anyone start with '.' to gain consecutive naming. \nor you can proceed anyway? ('y'/'Y' or any key to quit)")
+print(f"\nPlease verify the new file names for accuracy: press 'p' to review the file names, or 'y'/'Y' to proceed with the renaming process. Press any other key to exit the program.\n")
 n=input()
 
-if(n=="y" or n=="Y"):
-    rename=0
+if(n=="y" or n=="Y" or n=="p"):
+    rename,hidden=0,0
     for i in range(len(files)-1):
         if(files[i][0]=="."):
-            rename-=1
+            hidden+=1
             continue
 
         if "_" in files[i] and files[i][0]!="_":
@@ -31,9 +31,13 @@ if(n=="y" or n=="Y"):
         rename+=1
         newfile_name=f"{str(rename).zfill(digits)}_{oldName}"
 
-        os.rename(oldName,newfile_name)
-        # print(newfile_name)
-        # print(oldName)
+        if(n=="p"):
+            print(f"{oldName} --> {newfile_name}")
+        else:
+            os.rename(oldName,newfile_name)
+            print("File renaming successful.\n")
+    print(f"\nNumber of hidden files are {hidden}. For safety purpose, they will be kept unchanged.")
+
 else:
     print("File renaming cancel.")
     exit(0)
