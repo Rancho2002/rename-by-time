@@ -13,31 +13,37 @@ n=input()
 if(n=="y" or n=="Y" or n=="p"):
     rename,hidden=0,0
     for i in range(len(files)-1):
+        
+        oldname=files[i]
+        
         if(files[i][0]=="."):
             hidden+=1
             continue
 
         if "_" in files[i] and files[i][0]!="_":
+
+
+
             index=files[i].find("_")
             isNum=files[index-1]
         
             if(isNum >="0" and isNum<="9"):
-                oldName=files[i][index+1:]
+                tempOld=files[i][index+1:]
             else:
-                oldName=files[i]
+                tempOld=files[i]
         else:
-            oldName=files[i]
+            tempOld=files[i]
 
         rename+=1
-        newfile_name=f"{str(rename).zfill(digits)}_{oldName}"
+        newfile_name=f"{str(rename).zfill(digits)}_{tempOld}"
 
         if(n=="p"):
-            print(f"{oldName} --> {newfile_name}")
+            print(f"{tempOld} --> {newfile_name}")
         else:
-            os.rename(oldName,newfile_name)
+            os.rename(oldname,newfile_name)
             print("File renaming successful.\n")
     print(f"\nNumber of hidden files are {hidden}. For safety purpose, they will be kept unchanged.")
 
 else:
-    print("File renaming cancel.")
+    print("File renaming cancel.") 
     exit(0)
